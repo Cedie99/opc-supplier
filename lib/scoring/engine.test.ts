@@ -62,15 +62,15 @@ describe("rateValue thresholds", () => {
 });
 
 describe("scoreSupplier", () => {
-  it("reproduces the selection calculator example (84% → Approved)", () => {
+  it("reproduces the selection calculator example (83% → Approved, 25/25 weights)", () => {
     const r = scoreSupplier(
       SELECTION_CRITERIA,
       manual({ price: 4, quality: 5, delivery: 3, payment_terms: 4, responsiveness: 5, credibility: 4 }),
       SELECTION_BANDS,
     );
-    expect(r.total).toBe(84);
+    expect(r.total).toBe(83);
     expect(r.classification).toBe("approved");
-    expect(r.criteria.find((c) => c.key === "price")?.points).toBe(16);
+    expect(r.criteria.find((c) => c.key === "price")?.points).toBe(20);
   });
 
   it("reproduces the quarterly example (89% → Approved)", () => {
@@ -157,7 +157,7 @@ describe("validateTemplate", () => {
   });
 
   it("rejects weights that do not add up to 100", () => {
-    const bad = SELECTION_CRITERIA.map((c) => (c.key === "price" ? { ...c, weight: 25 } : c));
+    const bad = SELECTION_CRITERIA.map((c) => (c.key === "price" ? { ...c, weight: 30 } : c));
     expect(validateTemplate(bad, SELECTION_BANDS)[0]).toMatch(/105%/);
   });
 });

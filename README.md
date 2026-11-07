@@ -32,7 +32,7 @@ The source document identified these problems:
 
 | Problem | Root cause | How the system addresses it |
 | --- | --- | --- |
-| Decisions based on lowest price | No standardized selection matrix | Weighted Selection Matrix: price is only 20% |
+| Decisions based on lowest price | No standardized selection matrix | Weighted Selection Matrix: price is only 25%, equal to quality |
 | Poor-quality materials | No quality standards | QA rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
 | Delayed deliveries | No lead-time monitoring | On-time in-full rate rated every quarter by Warehouse |
 | Same suppliers every time | No canvassing or benchmarking | Canvass compares 2–3+ suppliers side by side |
@@ -122,8 +122,8 @@ These come from the *Supplier Selection Matrix* document.
 
 | Criterion | Weight | Metric | 5 = Excellent | 1 = Poor |
 | --- | --- | --- | --- | --- |
-| Price Competitiveness | 20% | % above the lowest qualified landed cost | 0–2% | >15% |
-| Product Quality | 30% | Specs passed ÷ specs tested | 99–100% | <90% |
+| Price Competitiveness | 25% | % above the lowest qualified landed cost | 0–2% | >15% |
+| Product Quality | 25% | Specs passed ÷ specs tested | 99–100% | <90% |
 | Delivery Reliability | 20% | On-time in-full rate | 98–100% | <80% |
 | Payment Terms | 10% | Credit days | 60+ days | <15 days / COD |
 | Responsiveness | 10% | Average business hours to first reply | ≤2 h | >24 h |
@@ -402,7 +402,7 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 
 **To confirm with management.** The source document is inconsistent on these points. All of them can be changed in **Settings → Scoring templates** without code changes.
 
-- Selection Matrix weights: the detailed table (Price 20%, Quality 30%) is used, not the sample matrix (25% / 25%).
+- Selection Matrix weights follow the Selection Matrix table: Price 25%, Quality 25%, Delivery 20%, Payment Terms 10%, Responsiveness 10%, Credibility 10%. (The detailed criteria table in the document still says 20% / 30%.)
 - Quality thresholds differ between new (99/97/95/90) and existing suppliers (100/95/90/80), as in the document.
 - Quarterly quality is rated on supplier samples, as the document says.
 - Who verifies legal documents (QA or Purchasing), and who gives final approval.

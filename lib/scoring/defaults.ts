@@ -5,8 +5,8 @@ import type { Band, CriterionConfig } from "./types";
  * Administrators can change these in Settings → Scoring templates; every save creates a new version.
  *
  * Decisions taken where the source document was inconsistent (review with management):
- * - New-supplier weights follow the detailed criteria table (Price 20%, Quality 30%),
- *   not the sample matrix (25% / 25%).
+ * - New-supplier weights follow the sample Selection Matrix table (Price 25%, Quality 25%),
+ *   as confirmed by management, not the detailed criteria table (20% / 30%).
  * - New-supplier quality is rated on samples (specs passed ÷ specs tested), using the 99/97/95/90 thresholds.
  */
 
@@ -38,7 +38,7 @@ export const SELECTION_CRITERIA: CriterionConfig[] = [
   {
     key: "price",
     name: "Price Competitiveness",
-    weight: 20,
+    weight: 25,
     guideline: "Compare quotations from at least 2–3 suppliers offering equivalent specifications, using total landed cost.",
     metricLabel: "% above the lowest qualified total landed cost",
     inputMode: "price_diff",
@@ -54,7 +54,7 @@ export const SELECTION_CRITERIA: CriterionConfig[] = [
     key: "quality",
     filledBy: "qa",
     name: "Product Quality",
-    weight: 30,
+    weight: 25,
     guideline:
       "Evaluate product samples for compliance with company specifications, durability, functionality and QA test results before approval. A critical specification failure triggers QA review regardless of the rating.",
     metricLabel: "Sample compliance rate",
