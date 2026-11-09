@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { and, asc, count, eq, exists, ilike, or, sql, type SQL } from "drizzle-orm";
-import { PlusIcon, TriangleAlertIcon } from "lucide-react";
+import { FileSpreadsheetIcon, PlusIcon, TriangleAlertIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -77,11 +77,18 @@ export default async function SuppliersPage({ searchParams }: PageProps<"/suppli
         description="Accredited Supplier Masterlist: every supplier, its status, tier and latest score."
         actions={
           can(user.role, "manageSuppliers") && (
-            <Button asChild>
-              <Link href="/suppliers/new">
-                <PlusIcon /> New supplier
-              </Link>
-            </Button>
+            <>
+              <Button variant="outline" asChild>
+                <Link href="/suppliers/import">
+                  <FileSpreadsheetIcon /> Import from Excel
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/suppliers/new">
+                  <PlusIcon /> New supplier
+                </Link>
+              </Button>
+            </>
           )
         }
       />

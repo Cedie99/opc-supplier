@@ -17,7 +17,7 @@ import { createUser, updateUser } from "../actions";
 export const metadata = { title: "Users" };
 
 const PERMISSION_LABELS: Record<keyof typeof PERMISSIONS, string> = {
-  manageSuppliers: "Register and edit suppliers",
+  manageSuppliers: "Register, import and edit suppliers",
   uploadDocuments: "Upload and replace documents",
   verifyDocuments: "Verify or reject documents",
   editCanvass: "Fill in Selection Matrix ratings (own fields)",

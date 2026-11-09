@@ -40,13 +40,7 @@ export function formToObject(formData: FormData): Record<string, unknown> {
   return out;
 }
 
-// Common zod helpers for form fields
-export const zText = (max = 500) => z.string().max(max).optional();
-export const zRequired = (label: string, max = 200) => z.string({ error: `${label} is required.` }).min(1, `${label} is required.`).max(max);
-export const zInt = z.coerce.number().int().optional();
-export const zNumber = z.coerce.number().optional();
-export const zBool = z.preprocess((v) => v === "on" || v === "true" || v === true, z.boolean());
-export const zUuid = z.uuid();
+export { zText, zRequired, zInt, zNumber, zBool, zUuid } from "@/lib/zod-fields";
 
 /**
  * Parses a <input type="datetime-local"> value ("2026-11-07T14:30") typed in the browser's timezone.

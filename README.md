@@ -80,6 +80,7 @@ All through the year, Purchasing Associates send **supplier requests** (quotatio
 | --- | --- |
 | **Dashboard** | Accredited suppliers, evaluation progress, overdue corrective actions, expiring documents, critical categories without an alternative supplier, lowest scorers |
 | **Suppliers** (Accredited Supplier Masterlist) | Status, tier, materials supplied, sole-source and mold-ownership flags, latest score. Each supplier page has tabs: Overview, Documents, Evaluations, Corrective actions, Activity log, History |
+| **Import from Excel** | Register up to 500 suppliers from an `.xlsx` file. Every row is checked and shown before anything is saved. Suppliers start as Prospects, and rows matching a registered company name, TIN or ERP vendor code are left out |
 | **Documents** (Accreditation Checklist) | Upload, verify or reject documents; expiry tracking. Missing, rejected or expired mandatory documents **block accreditation** |
 | **Registration link** | 14-day link (emailed automatically) for a supplier to fill in its details and upload its documents |
 | **Re-upload link** | Link limited to the supplier's rejected, expired or missing documents. It shows the Purchasing Officer's rejection reasons |

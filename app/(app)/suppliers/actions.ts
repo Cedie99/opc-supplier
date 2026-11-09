@@ -17,7 +17,8 @@ import {
   suppliers,
 } from "@/lib/db/schema";
 import { authorize, ActionError } from "@/lib/auth";
-import { runAction, formToObject, parseLocalDateTime, zBool, zText, zRequired, type ActionState } from "@/lib/actions";
+import { runAction, formToObject, parseLocalDateTime, zText, zRequired, type ActionState } from "@/lib/actions";
+import { supplierSchema } from "@/lib/supplier-schema";
 import { nextReference, recordEvent } from "@/lib/audit";
 import { confirmUpload, createUploadTicket, readUploadRef, runUploadTicket } from "@/lib/storage";
 import type { UploadRequest, UploadTicketResult } from "@/lib/upload-rules";
@@ -26,30 +27,7 @@ import { appUrl } from "@/lib/env";
 import { deliveryNote, queueEmail } from "@/lib/email";
 import { renderEmail } from "@/lib/email-templates";
 import { fmtDateTime } from "@/lib/format";
-import { MOLD_OWNERSHIP, REQUEST_TYPES, SUPPLIER_STATUSES, SUPPLIER_TIERS, SUPPLIER_STATUS_LABELS } from "@/lib/constants";
-
-const optionalInt = z.preprocess((v) => (v === undefined ? undefined : Number(v)), z.number().int().min(0).max(100000).optional());
-
-const supplierSchema = z.object({
-  name: zRequired("Company name"),
-  tradeName: zText(200),
-  contactPerson: zText(200),
-  email: z.email("Enter a valid email.").optional(),
-  phone: zText(100),
-  address: zText(500),
-  tin: zText(50),
-  website: zText(300),
-  yearEstablished: z.preprocess(
-    (v) => (v === undefined ? undefined : Number(v)),
-    z.number().int().min(1800, "Enter a valid year.").max(new Date().getFullYear(), "Enter a valid year.").optional(),
-  ),
-  creditTermsDays: optionalInt,
-  tier: z.enum(SUPPLIER_TIERS),
-  isSingleSource: zBool,
-  moldOwnership: z.enum(MOLD_OWNERSHIP),
-  erpVendorCode: zText(50),
-  notes: zText(2000),
-});
+import { REQUEST_TYPES, SUPPLIER_STATUSES, SUPPLIER_STATUS_LABELS } from "@/lib/constants";
 
 /** Reads the category checkboxes (name="categoryIds") and their material notes (name="materials:<id>"). */
 function readCategories(formData: FormData) {
