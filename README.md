@@ -33,7 +33,7 @@ The source document identified these problems:
 | Problem | Root cause | How the system addresses it |
 | --- | --- | --- |
 | Decisions based on lowest price | No standardized selection matrix | Weighted Selection Matrix: price is only 25%, equal to quality |
-| Poor-quality materials | No quality standards | QA rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
+| Poor-quality materials | No quality standards | The Purchasing Officer rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
 | Delayed deliveries | No lead-time monitoring | On-time in-full rate rated every quarter by Warehouse |
 | Same suppliers every time | No canvassing or benchmarking | Canvass compares 2–3+ suppliers side by side |
 | Dependence on one bottle supplier | No alternative sourcing | Sole-source and mold-ownership flags; dashboard lists critical categories with no alternative |
@@ -45,28 +45,32 @@ The source document identified these problems:
 ## Workflow at a glance
 
 ```
- NEW SUPPLIER                                   EXISTING SUPPLIER
- ────────────                                   ─────────────────
- 1. Buyer adds supplier / sends registration    1. Buyer generates quarterly drafts
-    link → supplier uploads documents           2. QA rates Product Quality
- 2. QA verifies documents                       3. Warehouse rates On-Time Delivery
-    (rejected → buyer sends a re-upload link    4. Buyer rates price, documentation and
-     for only those documents)                     after-sales; Responsiveness is filled
- 3. Buyer opens a canvass (Selection Matrix)       from request reply times
-    and adds 2–3+ suppliers                     5. Buyer submits → Purchasing Manager
- 4. Buyer enters price, payment terms,             approves
-    delivery, responsiveness, credibility       6. Score updates supplier status;
- 5. QA enters specs passed/tested and the          criteria below 3 open corrective actions
-    critical-spec flag
- 6. Buyer recommends one → submits
- 7. Purchasing Manager approves → the chosen
-    supplier becomes accredited
-                  │                                         │
-                  └──────────────► Masterlist ◄─────────────┘
-                     (status, score, documents, history)
+ NEW SUPPLIER
+ ────────────
+ 1. Purchasing Associate adds supplier / sends registration link
+    → supplier uploads documents
+ 2. Purchasing Officer verifies documents
+    (rejected → Purchasing Associate sends a re-upload link for only those documents)
+ 3. Purchasing Associate opens a canvass (Selection Matrix) and adds 2–3+ suppliers
+ 4. Purchasing Associate enters price, payment terms, delivery, responsiveness, credibility
+ 5. Purchasing Officer enters specs passed/tested and the critical-spec flag
+ 6. Purchasing Associate recommends one → submits
+ 7. Purchasing Manager approves → the chosen supplier becomes accredited
+
+ EXISTING SUPPLIER
+ ─────────────────
+ 1. Purchasing Associate generates quarterly drafts
+ 2. Purchasing Officer rates Product Quality
+ 3. Warehouse rates On-Time Delivery
+ 4. Purchasing Associate rates price, documentation and after-sales;
+    Responsiveness is filled from request reply times
+ 5. Purchasing Associate submits → Purchasing Manager approves
+ 6. Score updates supplier status; criteria below 3 open corrective actions
+
+ Both feed the Masterlist (status, score, documents, history)
 ```
 
-All through the year, buyers send **supplier requests** (quotations, PO and delivery confirmations, inquiries). Reply times feed the Responsiveness rating.
+All through the year, Purchasing Associates send **supplier requests** (quotations, PO and delivery confirmations, inquiries). Reply times feed the Responsiveness rating.
 
 ---
 
@@ -78,7 +82,7 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 | **Suppliers** (Accredited Supplier Masterlist) | Status, tier, materials supplied, sole-source and mold-ownership flags, latest score. Each supplier page has tabs: Overview, Documents, Evaluations, Corrective actions, Activity log, History |
 | **Documents** (Accreditation Checklist) | Upload, verify or reject documents; expiry tracking. Missing, rejected or expired mandatory documents **block accreditation** |
 | **Registration link** | 14-day link (emailed automatically) for a supplier to fill in its details and upload its documents |
-| **Re-upload link** | Link limited to the supplier's rejected, expired or missing documents. It shows QA's rejection reasons |
+| **Re-upload link** | Link limited to the supplier's rejected, expired or missing documents. It shows the Purchasing Officer's rejection reasons |
 | **Selection Matrix** (canvass) | Compare suppliers side by side: scorecards, a heat-map comparison table, a recommendation with a reason. Price is compared with the lowest *qualified* landed cost |
 | **Quarterly evaluations** | Drafts for every critical and high-spend supplier each quarter (standard tier in Q4). Logged response times and complaints are offered as inputs |
 | **Corrective actions** | Root cause, action plan, owner, due date, verification and closure |
@@ -93,10 +97,10 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 
 | Role | Responsibilities |
 | --- | --- |
-| **Buyer (Purchasing)** | Adds suppliers, sends registration, re-upload and request links, prepares and submits canvasses and evaluations, fills in the purchasing criteria |
-| **QA Officer** | Verifies supplier documents; rates Product Quality (specs passed / specs tested) and the critical-spec flag; manages corrective actions |
+| **Purchasing Associate** | Adds suppliers, sends registration, re-upload and request links, prepares and submits canvasses and evaluations, fills in the purchasing criteria |
+| **Purchasing Officer** | Verifies supplier documents; rates Product Quality (specs passed / specs tested) and the critical-spec flag; manages corrective actions |
 | **Warehouse** | Rates On-Time Delivery in quarterly evaluations; logs activity |
-| **Purchasing Manager** | Approves or rejects canvasses and evaluations; can do everything a buyer can |
+| **Purchasing Manager** | Approves or rejects canvasses and evaluations; can do everything a Purchasing Associate can |
 | **Administrator** | Everything, including settings and users; backup document verifier |
 | **Management** | View only |
 
@@ -104,9 +108,9 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 
 | Criterion | Selection Matrix | Quarterly evaluation |
 | --- | --- | --- |
-| Product Quality, critical-spec flag | QA | QA |
-| On-Time Delivery | Purchasing | Warehouse |
-| Price, payment terms, responsiveness, credibility, documentation, after-sales | Purchasing | Purchasing |
+| Product Quality, critical-spec flag | Purchasing Officer | Purchasing Officer |
+| On-Time Delivery | Purchasing Associate | Warehouse |
+| Price, payment terms, responsiveness, credibility, documentation, after-sales | Purchasing Associate | Purchasing Associate |
 
 Ownership is set per criterion in the scoring template (`filledBy`). A preparer cannot approve their own canvass or evaluation; administrators are the exception.
 
@@ -159,11 +163,11 @@ The scoring engine lives in `lib/scoring/` and has unit tests.
 
 Responsiveness is measured from real reply times, not estimated.
 
-1. A buyer opens a supplier → **Activity log** → **Send request**, and chooses a type: quotation, PO confirmation, delivery date confirmation, urgent request, complaint follow-up or general inquiry.
+1. A Purchasing Associate opens a supplier → **Activity log** → **Send request**, and chooses a type: quotation, PO confirmation, delivery date confirmation, urgent request, complaint follow-up or general inquiry.
 2. The system emails the supplier a unique link, and the clock starts.
 3. The supplier replies **through the link** with a short form for that type. For example, a quotation reply has unit price, lead time, validity and a file. Empty replies are refused.
 4. The reply time is counted in **business hours**: Mon–Fri, 08:00–17:00 Philippine time, excluding the holidays in Settings.
-5. The buyer is notified in the app and by email.
+5. The Purchasing Associate is notified in the app and by email.
 6. After **1 business day** without a reply, the supplier gets one automatic reminder.
 7. After **3 business days** without a reply, the request is marked **No response** and counts at the 27-hour limit (rating 1). It is never simply ignored. A late reply is still recorded.
 8. In the quarterly evaluation, **Use logged data** fills in the average reply time. It notes how many requests got no response, were recorded by hand or are still waiting, and warns when there are fewer than 3 requests.
@@ -222,7 +226,7 @@ The rules are in `lib/business-hours.ts` and `lib/request-timing.ts`, and both h
 Create a project at [supabase.com](https://supabase.com). From **Project Settings**, collect:
 
 - **API:** the Project URL, the `anon` key and the `service_role` key
-- **Database → Connection string:** the *Transaction pooler* URI (port 6543) and the *Session pooler* or direct URI (port 5432)
+- **Connect** (top of the dashboard): the *Session pooler* URI (port 5432), with your database password in it. Don't use the *Transaction pooler* (port 6543): pages hang on it when several queries run at once.
 
 ### 2. Environment
 
@@ -236,8 +240,8 @@ Fill in every value in `.env.local`:
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase project URL and anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only admin key (user management, storage) |
-| `DATABASE_URL` | Transaction pooler URI (port 6543), used by the app |
-| `DIRECT_URL` | Session pooler or direct URI (port 5432), used by migrations |
+| `DATABASE_URL` | Session pooler URI (port 5432), used by the app |
+| `DIRECT_URL` | Session pooler URI (port 5432), used by migrations and `npm run setup`. Can be the same as `DATABASE_URL`. The direct `db.<project>.supabase.co` address may not resolve on networks without IPv6. |
 | `SUPABASE_DOCUMENTS_BUCKET` | Private bucket name (default `supplier-documents`) |
 | `NEXT_PUBLIC_APP_URL` | Public address of the app, used in links sent to suppliers |
 | `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_ADMIN_NAME` | First administrator, created by `npm run setup` |
@@ -273,7 +277,7 @@ npm run dev
 
 Open http://localhost:3000 and sign in as the administrator. Then:
 
-1. **Settings → Users:** add Purchasing, QA, Warehouse and Purchasing Manager accounts.
+1. **Settings → Users:** add Purchasing Associate, Purchasing Officer, Warehouse and Purchasing Manager accounts.
 2. **Settings → Categories & documents:** adjust categories, mark which are critical and which documents are mandatory, and add holidays.
 3. **Settings → Scoring templates:** confirm weights and thresholds with management.
 4. **Suppliers:** register existing suppliers (or send them registration links). Then upload and verify their documents.
@@ -324,7 +328,7 @@ The app is a standard Next.js server.
    npm start
    ```
 
-2. Or deploy to any Node host (Vercel, a VM, Docker) and set the same environment variables there.
+2. Or deploy to any Node host (Vercel, a VM, Docker) and set the same environment variables there. The session pooler used by `DATABASE_URL` suits a single long-running server. On Vercel or any host that runs many copies of the app, each copy holds its own connections and can reach Supabase's connection limit, so review the connection setup before going live there.
 3. Set `NEXT_PUBLIC_APP_URL` to the public address, so links in supplier emails point to the right place.
 4. Suppliers must be able to reach `/register/*` and `/respond/*`. The rest of the app requires sign-in.
 
@@ -388,13 +392,13 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 
 | Symptom | Fix |
 | --- | --- |
-| Sign-in is slow or a page shows "statement timeout" | A stuck pooler connection; reload. Make sure `DATABASE_URL` uses the transaction pooler (port 6543). |
+| Sign-in or pages take 30 seconds or more, or a page shows "statement timeout" | `DATABASE_URL` is probably on the transaction pooler (port 6543), where parallel queries can hang. Use the session pooler (port 5432) and restart the app. |
 | Links in emails point to `localhost` | Set `NEXT_PUBLIC_APP_URL` to the real address and restart. |
 | Emails stay in the Outbox as *Not configured* | Set `SMTP_HOST` and `SMTP_FROM` (and user/password), restart, then press **Send** in the Outbox. |
 | Microsoft 365 rejects SMTP login | IT must enable *Authenticated SMTP* for that mailbox. |
 | `/api/cron/requests` returns 503 | `CRON_SECRET` isn't set. |
 | A field is locked | Another role owns it (see [field ownership](#roles-and-who-fills-what)). |
-| Supplier can't be accredited | Check the Documents tab for missing, rejected or expired mandatory documents, and the QA critical-spec flag. |
+| Supplier can't be accredited | Check the Documents tab for missing, rejected or expired mandatory documents, and the critical-spec flag. |
 
 ---
 
@@ -405,7 +409,7 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 - Selection Matrix weights follow the Selection Matrix table: Price 25%, Quality 25%, Delivery 20%, Payment Terms 10%, Responsiveness 10%, Credibility 10%. (The detailed criteria table in the document still says 20% / 30%.)
 - Quality thresholds differ between new (99/97/95/90) and existing suppliers (100/95/90/80), as in the document.
 - Quarterly quality is rated on supplier samples, as the document says.
-- Who verifies legal documents (QA or Purchasing), and who gives final approval.
+- Who verifies legal documents (Purchasing Officer or Purchasing Associate), and who gives final approval.
 
 **Next phases**
 

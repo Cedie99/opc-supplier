@@ -14,8 +14,8 @@ export default async function DonePage({ searchParams }: PageProps<"/register/[t
           <CardTitle>{isReupload ? "Documents submitted" : "Registration submitted"}</CardTitle>
           <CardDescription>
             {isReupload
-              ? "Thank you. Our QA team will review the new files and contact you if anything else is needed."
-              : "Thank you. Our Purchasing and QA teams will review your documents and contact you about the next steps."}
+              ? "Thank you. Our Purchasing team will review the new files and contact you if anything else is needed."
+              : "Thank you. Our Purchasing team will review your documents and contact you about the next steps."}
           </CardDescription>
         </CardHeader>
       </Card>

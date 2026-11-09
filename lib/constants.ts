@@ -7,8 +7,8 @@ export type Role = (typeof ROLES)[number];
 export const ROLE_LABELS: Record<Role, string> = {
   admin: "Administrator",
   purchasing_manager: "Purchasing Manager",
-  buyer: "Buyer (Purchasing)",
-  qa_officer: "QA Officer",
+  buyer: "Purchasing Associate",
+  qa_officer: "Purchasing Officer",
   warehouse: "Warehouse",
   viewer: "Management (view only)",
 };

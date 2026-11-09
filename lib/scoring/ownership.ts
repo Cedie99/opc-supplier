@@ -12,7 +12,7 @@ import type { CriterionConfig } from "./types";
 export type FieldOwner = "purchasing" | "qa" | "warehouse";
 export type TemplateKind = "selection" | "quarterly";
 
-export const FIELD_OWNER_LABELS: Record<FieldOwner, string> = { purchasing: "Purchasing", qa: "QA", warehouse: "Warehouse" };
+export const FIELD_OWNER_LABELS: Record<FieldOwner, string> = { purchasing: "Purchasing Associate", qa: "Purchasing Officer", warehouse: "Warehouse" };
 
 /** Used for templates saved before `filledBy` existed. */
 const DEFAULT_OWNERS: Record<TemplateKind, Record<string, FieldOwner>> = {

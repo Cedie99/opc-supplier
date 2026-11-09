@@ -187,7 +187,7 @@ export function RequestReuploadDialog({ action, items, email }: { action: Action
         </Button>
       }
       title="Ask the supplier to re-upload documents"
-      description="The supplier gets a link that asks only for the documents you tick, with QA's rejection reason. It works for 14 days, can be used once, and replaces any earlier re-upload link."
+      description="The supplier gets a link that asks only for the documents you tick, with the Purchasing Officer's rejection reason. It works for 14 days, can be used once, and replaces any earlier re-upload link."
       action={action}
       submitLabel="Create link"
       keepOpenOnSuccess
