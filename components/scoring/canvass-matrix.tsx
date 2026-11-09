@@ -344,8 +344,8 @@ export function CanvassMatrix({ criteria, bands, entries: initial, recommendedSu
                 {canPurchasing && canQa
                   ? "As Admin you can fill in every field."
                   : canQa
-                    ? `You fill in the QA fields: ${qaFields}. Purchasing fills in the rest and submits the canvass.`
-                    : `You fill in the commercial fields and submit the canvass. QA fills in ${qaFields}.`}
+                    ? `You fill in the quality fields: ${qaFields}. The Purchasing Associate fills in the rest and submits the canvass.`
+                    : `You fill in the commercial fields and submit the canvass. The Purchasing Officer fills in ${qaFields}.`}
               </p>
             </div>
           )}
@@ -407,10 +407,10 @@ export function CanvassMatrix({ criteria, bands, entries: initial, recommendedSu
                                 canQa ? "bg-secondary text-primary" : "bg-muted text-muted-foreground",
                               )}
                             >
-                              {!canQa && <LockIcon className="size-3" />} Filled by QA
+                              {!canQa && <LockIcon className="size-3" />} Filled by Purchasing Officer
                             </span>
                           </span>
-                          <span className="text-muted-foreground block text-xs">Set by QA. The supplier cannot be selected and is left out of the price benchmark.</span>
+                          <span className="text-muted-foreground block text-xs">Set by the Purchasing Officer. The supplier cannot be selected and is left out of the price benchmark.</span>
                         </span>
                       </label>
                     </div>

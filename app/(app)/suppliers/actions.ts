@@ -324,7 +324,7 @@ export async function createResubmissionLink(supplierId: string, _prev: ActionSt
           heading: "Please upload these documents again",
           paragraphs: [
             `Hello${supplier?.contactPerson ? ` ${supplier.contactPerson}` : ""},`,
-            `Our QA team could not accept some of ${supplier?.name ?? "your company"}'s documents. Please upload a corrected file for each one using the button. The reasons are shown on the upload page.`,
+            `Our Purchasing team could not accept some of ${supplier?.name ?? "your company"}'s documents. Please upload a corrected file for each one using the button. The reasons are shown on the upload page.`,
           ],
           details: chosen.map((i) => ({ label: i.type.name, value: i.state === "rejected" ? `Rejected${i.document?.reviewNote ? `: ${i.document.reviewNote}` : ""}` : i.state === "expired" ? "Expired" : "Not received" })),
           button: { label: "Upload documents", url: link },

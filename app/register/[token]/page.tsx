@@ -136,7 +136,7 @@ async function Resubmission({ token, invite }: { token: string; invite: typeof s
             <CardTitle>Please upload {types.length === 1 ? "this document" : "these documents"} again</CardTitle>
             <CardDescription>
               {supplier?.name ? `For ${supplier.name}. ` : ""}
-              Our QA team could not accept the {types.length === 1 ? "document" : "documents"} below. Upload a corrected file for each one. This link
+              Our Purchasing team could not accept the {types.length === 1 ? "document" : "documents"} below. Upload a corrected file for each one. This link
               expires on {fmtDate(invite.expiresAt)} and can be submitted once. PDF, JPG, PNG or WEBP, up to 10 MB each.
             </CardDescription>
           </CardHeader>

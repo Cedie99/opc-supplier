@@ -415,7 +415,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
             <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-4">
               <div>
                 <CardTitle>Accreditation checklist</CardTitle>
-                <CardDescription>Mandatory documents must be verified by QA and valid before the supplier can be accredited.</CardDescription>
+                <CardDescription>Mandatory documents must be verified by a Purchasing Officer and valid before the supplier can be accredited.</CardDescription>
               </div>
               <div className="flex flex-wrap justify-end gap-2">
                 {canInvite && reuploadItems.length > 0 && (
@@ -427,7 +427,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
             <CardContent className="grid gap-4">
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 <DocCount tone="green" label="Verified" value={docCounts.verified} />
-                <DocCount tone="blue" label="Waiting for QA" value={docCounts.pending} />
+                <DocCount tone="blue" label="Waiting for review" value={docCounts.pending} />
                 <DocCount tone="red" label="Rejected or expired" value={docCounts.attention} />
                 <DocCount tone="gray" label="Not received" value={docCounts.missing} />
               </div>
@@ -435,7 +435,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
                 <Alert variant="destructive" className="rounded-2xl">
                   <TriangleAlertIcon />
                   <AlertTitle>
-                    QA rejected {rejectedCount} {rejectedCount === 1 ? "document" : "documents"}
+                    Purchasing Officer rejected {rejectedCount} {rejectedCount === 1 ? "document" : "documents"}
                   </AlertTitle>
                   <AlertDescription>
                     {canInvite ? "Use Request re-upload to send the supplier a link for just those files." : "Purchasing will ask the supplier for corrected files."}
@@ -477,7 +477,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
                             )}
                           </p>
                           {document?.reviewNote && (
-                            <p className={state === "rejected" ? "text-destructive mt-1 text-xs" : "text-muted-foreground mt-1 text-xs"}>QA: {document.reviewNote}</p>
+                            <p className={state === "rejected" ? "text-destructive mt-1 text-xs" : "text-muted-foreground mt-1 text-xs"}>Purchasing Officer: {document.reviewNote}</p>
                           )}
                         </div>
                       </div>

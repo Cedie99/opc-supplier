@@ -33,7 +33,7 @@ The source document identified these problems:
 | Problem | Root cause | How the system addresses it |
 | --- | --- | --- |
 | Decisions based on lowest price | No standardized selection matrix | Weighted Selection Matrix: price is only 25%, equal to quality |
-| Poor-quality materials | No quality standards | QA rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
+| Poor-quality materials | No quality standards | The Purchasing Officer rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
 | Delayed deliveries | No lead-time monitoring | On-time in-full rate rated every quarter by Warehouse |
 | Same suppliers every time | No canvassing or benchmarking | Canvass compares 2–3+ suppliers side by side |
 | Dependence on one bottle supplier | No alternative sourcing | Sole-source and mold-ownership flags; dashboard lists critical categories with no alternative |
@@ -45,28 +45,32 @@ The source document identified these problems:
 ## Workflow at a glance
 
 ```
- NEW SUPPLIER                                   EXISTING SUPPLIER
- ────────────                                   ─────────────────
- 1. Buyer adds supplier / sends registration    1. Buyer generates quarterly drafts
-    link → supplier uploads documents           2. QA rates Product Quality
- 2. QA verifies documents                       3. Warehouse rates On-Time Delivery
-    (rejected → buyer sends a re-upload link    4. Buyer rates price, documentation and
-     for only those documents)                     after-sales; Responsiveness is filled
- 3. Buyer opens a canvass (Selection Matrix)       from request reply times
-    and adds 2–3+ suppliers                     5. Buyer submits → Purchasing Manager
- 4. Buyer enters price, payment terms,             approves
-    delivery, responsiveness, credibility       6. Score updates supplier status;
- 5. QA enters specs passed/tested and the          criteria below 3 open corrective actions
-    critical-spec flag
- 6. Buyer recommends one → submits
- 7. Purchasing Manager approves → the chosen
-    supplier becomes accredited
-                  │                                         │
-                  └──────────────► Masterlist ◄─────────────┘
-                     (status, score, documents, history)
+ NEW SUPPLIER
+ ────────────
+ 1. Purchasing Associate adds supplier / sends registration link
+    → supplier uploads documents
+ 2. Purchasing Officer verifies documents
+    (rejected → Purchasing Associate sends a re-upload link for only those documents)
+ 3. Purchasing Associate opens a canvass (Selection Matrix) and adds 2–3+ suppliers
+ 4. Purchasing Associate enters price, payment terms, delivery, responsiveness, credibility
+ 5. Purchasing Officer enters specs passed/tested and the critical-spec flag
+ 6. Purchasing Associate recommends one → submits
+ 7. Purchasing Manager approves → the chosen supplier becomes accredited
+
+ EXISTING SUPPLIER
+ ─────────────────
+ 1. Purchasing Associate generates quarterly drafts
+ 2. Purchasing Officer rates Product Quality
+ 3. Warehouse rates On-Time Delivery
+ 4. Purchasing Associate rates price, documentation and after-sales;
+    Responsiveness is filled from request reply times
+ 5. Purchasing Associate submits → Purchasing Manager approves
+ 6. Score updates supplier status; criteria below 3 open corrective actions
+
+ Both feed the Masterlist (status, score, documents, history)
 ```
 
-All through the year, buyers send **supplier requests** (quotations, PO and delivery confirmations, inquiries). Reply times feed the Responsiveness rating.
+All through the year, Purchasing Associates send **supplier requests** (quotations, PO and delivery confirmations, inquiries). Reply times feed the Responsiveness rating.
 
 ---
 
@@ -78,7 +82,7 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 | **Suppliers** (Accredited Supplier Masterlist) | Status, tier, materials supplied, sole-source and mold-ownership flags, latest score. Each supplier page has tabs: Overview, Documents, Evaluations, Corrective actions, Activity log, History |
 | **Documents** (Accreditation Checklist) | Upload, verify or reject documents; expiry tracking. Missing, rejected or expired mandatory documents **block accreditation** |
 | **Registration link** | 14-day link (emailed automatically) for a supplier to fill in its details and upload its documents |
-| **Re-upload link** | Link limited to the supplier's rejected, expired or missing documents. It shows QA's rejection reasons |
+| **Re-upload link** | Link limited to the supplier's rejected, expired or missing documents. It shows the Purchasing Officer's rejection reasons |
 | **Selection Matrix** (canvass) | Compare suppliers side by side: scorecards, a heat-map comparison table, a recommendation with a reason. Price is compared with the lowest *qualified* landed cost |
 | **Quarterly evaluations** | Drafts for every critical and high-spend supplier each quarter (standard tier in Q4). Logged response times and complaints are offered as inputs |
 | **Corrective actions** | Root cause, action plan, owner, due date, verification and closure |
@@ -93,10 +97,10 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 
 | Role | Responsibilities |
 | --- | --- |
-| **Buyer (Purchasing)** | Adds suppliers, sends registration, re-upload and request links, prepares and submits canvasses and evaluations, fills in the purchasing criteria |
-| **QA Officer** | Verifies supplier documents; rates Product Quality (specs passed / specs tested) and the critical-spec flag; manages corrective actions |
+| **Purchasing Associate** | Adds suppliers, sends registration, re-upload and request links, prepares and submits canvasses and evaluations, fills in the purchasing criteria |
+| **Purchasing Officer** | Verifies supplier documents; rates Product Quality (specs passed / specs tested) and the critical-spec flag; manages corrective actions |
 | **Warehouse** | Rates On-Time Delivery in quarterly evaluations; logs activity |
-| **Purchasing Manager** | Approves or rejects canvasses and evaluations; can do everything a buyer can |
+| **Purchasing Manager** | Approves or rejects canvasses and evaluations; can do everything a Purchasing Associate can |
 | **Administrator** | Everything, including settings and users; backup document verifier |
 | **Management** | View only |
 
@@ -104,9 +108,9 @@ All through the year, buyers send **supplier requests** (quotations, PO and deli
 
 | Criterion | Selection Matrix | Quarterly evaluation |
 | --- | --- | --- |
-| Product Quality, critical-spec flag | QA | QA |
-| On-Time Delivery | Purchasing | Warehouse |
-| Price, payment terms, responsiveness, credibility, documentation, after-sales | Purchasing | Purchasing |
+| Product Quality, critical-spec flag | Purchasing Officer | Purchasing Officer |
+| On-Time Delivery | Purchasing Associate | Warehouse |
+| Price, payment terms, responsiveness, credibility, documentation, after-sales | Purchasing Associate | Purchasing Associate |
 
 Ownership is set per criterion in the scoring template (`filledBy`). A preparer cannot approve their own canvass or evaluation; administrators are the exception.
 
@@ -159,11 +163,11 @@ The scoring engine lives in `lib/scoring/` and has unit tests.
 
 Responsiveness is measured from real reply times, not estimated.
 
-1. A buyer opens a supplier → **Activity log** → **Send request**, and chooses a type: quotation, PO confirmation, delivery date confirmation, urgent request, complaint follow-up or general inquiry.
+1. A Purchasing Associate opens a supplier → **Activity log** → **Send request**, and chooses a type: quotation, PO confirmation, delivery date confirmation, urgent request, complaint follow-up or general inquiry.
 2. The system emails the supplier a unique link, and the clock starts.
 3. The supplier replies **through the link** with a short form for that type. For example, a quotation reply has unit price, lead time, validity and a file. Empty replies are refused.
 4. The reply time is counted in **business hours**: Mon–Fri, 08:00–17:00 Philippine time, excluding the holidays in Settings.
-5. The buyer is notified in the app and by email.
+5. The Purchasing Associate is notified in the app and by email.
 6. After **1 business day** without a reply, the supplier gets one automatic reminder.
 7. After **3 business days** without a reply, the request is marked **No response** and counts at the 27-hour limit (rating 1). It is never simply ignored. A late reply is still recorded.
 8. In the quarterly evaluation, **Use logged data** fills in the average reply time. It notes how many requests got no response, were recorded by hand or are still waiting, and warns when there are fewer than 3 requests.
@@ -273,7 +277,7 @@ npm run dev
 
 Open http://localhost:3000 and sign in as the administrator. Then:
 
-1. **Settings → Users:** add Purchasing, QA, Warehouse and Purchasing Manager accounts.
+1. **Settings → Users:** add Purchasing Associate, Purchasing Officer, Warehouse and Purchasing Manager accounts.
 2. **Settings → Categories & documents:** adjust categories, mark which are critical and which documents are mandatory, and add holidays.
 3. **Settings → Scoring templates:** confirm weights and thresholds with management.
 4. **Suppliers:** register existing suppliers (or send them registration links). Then upload and verify their documents.
@@ -394,7 +398,7 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 | Microsoft 365 rejects SMTP login | IT must enable *Authenticated SMTP* for that mailbox. |
 | `/api/cron/requests` returns 503 | `CRON_SECRET` isn't set. |
 | A field is locked | Another role owns it (see [field ownership](#roles-and-who-fills-what)). |
-| Supplier can't be accredited | Check the Documents tab for missing, rejected or expired mandatory documents, and the QA critical-spec flag. |
+| Supplier can't be accredited | Check the Documents tab for missing, rejected or expired mandatory documents, and the critical-spec flag. |
 
 ---
 
@@ -405,7 +409,7 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 - Selection Matrix weights follow the Selection Matrix table: Price 25%, Quality 25%, Delivery 20%, Payment Terms 10%, Responsiveness 10%, Credibility 10%. (The detailed criteria table in the document still says 20% / 30%.)
 - Quality thresholds differ between new (99/97/95/90) and existing suppliers (100/95/90/80), as in the document.
 - Quarterly quality is rated on supplier samples, as the document says.
-- Who verifies legal documents (QA or Purchasing), and who gives final approval.
+- Who verifies legal documents (Purchasing Officer or Purchasing Associate), and who gives final approval.
 
 **Next phases**
 
