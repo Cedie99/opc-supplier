@@ -10,7 +10,7 @@ import { todayIso } from "@/lib/format";
 export async function getSidebarBadges() {
   const today = todayIso();
   const warnDate = format(addDays(new Date(), DOCUMENT_EXPIRY_WARNING_DAYS), "yyyy-MM-dd");
-  const [row] = await db.execute<{ pending: number; overdue: number; expiring: number; unanswered: number }>(sql`
+  const { rows: [row] } = await db.execute<{ pending: number; overdue: number; expiring: number; unanswered: number }>(sql`
     select
       (select count(*) from ${evaluations} where ${evaluations.status} = 'submitted')::int
         + (select count(*) from ${canvasses} where ${canvasses.status} = 'submitted')::int as pending,
