@@ -5,8 +5,13 @@ import * as schema from "./schema";
 
 const globalForDb = globalThis as unknown as { pgClient?: ReturnType<typeof postgres> };
 
-/** Connections opened in the background at startup, so the first page doesn't pay ~0.5 s per new connection. */
-const WARM_CONNECTIONS = 4;
+/**
+ * Supabase's session pooler allows only 15 connections for ALL copies of the app together (each Vercel instance,
+ * each developer's machine). A few connections per copy handle a page's parallel queries just as fast.
+ */
+const MAX_CONNECTIONS = 3;
+/** Opened in the background at startup, so the first page doesn't pay ~0.5 s for a new connection. */
+const WARM_CONNECTIONS = 1;
 
 function createClient() {
   const url = process.env.DATABASE_URL;
@@ -17,10 +22,11 @@ function createClient() {
   const client = postgres(url ?? "postgres://missing-database-url:5432/postgres", {
     // Required for Supabase's transaction pooler (port 6543).
     prepare: false,
-    max: 10,
+    max: MAX_CONNECTIONS,
     // The pooler (and home/office routers) silently drop idle TCP connections. Reusing one of those makes a
     // query hang until the OS gives up, minutes later. Close idle connections first, and recycle old ones.
-    idle_timeout: 20, // seconds
+    // Closing them quickly also frees slots in the shared pool for other copies of the app.
+    idle_timeout: 10, // seconds
     max_lifetime: 60 * 10, // seconds
     connect_timeout: 10, // seconds: fail fast instead of hanging
   });
