@@ -19,7 +19,8 @@ import {
 import { authorize, ActionError } from "@/lib/auth";
 import { runAction, formToObject, parseLocalDateTime, zBool, zText, zRequired, type ActionState } from "@/lib/actions";
 import { nextReference, recordEvent } from "@/lib/audit";
-import { uploadSupplierFile } from "@/lib/storage";
+import { confirmUpload, createUploadTicket, readUploadRef, runUploadTicket } from "@/lib/storage";
+import type { UploadRequest, UploadTicketResult } from "@/lib/upload-rules";
 import { getCompliance } from "@/lib/accreditation";
 import { appUrl } from "@/lib/env";
 import { deliveryNote, queueEmail } from "@/lib/email";
@@ -143,6 +144,15 @@ const uploadSchema = z.object({
   expiresOn: z.iso.date().optional(),
 });
 
+export async function requestDocumentUpload(supplierId: string, file: UploadRequest): Promise<UploadTicketResult> {
+  return runUploadTicket(async () => {
+    await authorize("uploadDocuments");
+    const supplier = await db.query.suppliers.findFirst({ where: eq(suppliers.id, supplierId), columns: { id: true } });
+    if (!supplier) throw new ActionError("Supplier not found.");
+    return createUploadTicket(supplierId, file);
+  });
+}
+
 export async function uploadDocument(supplierId: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
   return runAction(async () => {
     const user = await authorize("uploadDocuments");
@@ -152,9 +162,9 @@ export async function uploadDocument(supplierId: string, _prev: ActionState, for
     if (type.hasExpiry && !data.expiresOn) {
       return { error: "Please check the highlighted fields.", fieldErrors: { expiresOn: [`${type.name} needs an expiry date.`] } };
     }
-    const file = formData.get("file");
-    if (!(file instanceof File)) throw new ActionError("Choose a file to upload.");
-    const stored = await uploadSupplierFile(supplierId, file);
+    const ref = readUploadRef(formData, "file");
+    if (!ref) throw new ActionError("Choose a file to upload.");
+    const stored = await confirmUpload(supplierId, ref);
 
     await db.transaction(async (tx) => {
       await tx

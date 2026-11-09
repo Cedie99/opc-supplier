@@ -211,6 +211,7 @@ The rules are in `lib/business-hours.ts` and `lib/request-timing.ts`, and both h
 - The browser never talks to the database. All reads and writes happen on the server, behind a role check in every server action.
 - Row Level Security is switched **on with no policies** for every table, so Supabase's public REST API exposes nothing, even with the anon key.
 - Supplier files live in a **private** storage bucket and are opened through short-lived signed links after a session check.
+- Files go from the browser directly to that bucket, so uploads aren't limited by the hosting platform's request size. The server checks the session or supplier link before issuing a one-time upload permission, then confirms the stored file's size and type before recording it. The bucket also enforces the 10 MB limit and allowed file types.
 - Public supplier pages (`/register/[token]`, `/respond/[token]`) work only with an unguessable, expiring token and can only touch that one supplier or request.
 - The cron endpoint requires `Authorization: Bearer <CRON_SECRET>` and is disabled when the secret isn't set.
 - Secrets live only in `.env.local`, which is git-ignored.

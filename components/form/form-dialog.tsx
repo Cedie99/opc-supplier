@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import type { ActionState } from "@/lib/action-state";
+import type { RequestUpload } from "@/lib/direct-upload";
 import { ActionForm } from "./action-form";
 import { SubmitButton } from "./fields";
 
@@ -19,6 +20,7 @@ export function FormDialog({
   submitVariant,
   keepOpenOnSuccess,
   onSuccess,
+  requestUpload,
 }: {
   trigger: React.ReactNode;
   title: string;
@@ -30,6 +32,7 @@ export function FormDialog({
   submitVariant?: React.ComponentProps<typeof Button>["variant"];
   keepOpenOnSuccess?: boolean;
   onSuccess?: (state: ActionState) => void;
+  requestUpload?: RequestUpload;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -42,6 +45,7 @@ export function FormDialog({
         </DialogHeader>
         <ActionForm
           action={action}
+          requestUpload={requestUpload}
           successMessage={successMessage}
           className="grid gap-4"
           onSuccess={(s) => {

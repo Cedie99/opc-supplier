@@ -11,7 +11,7 @@ import { communicationLogs, profiles, suppliers } from "@/lib/db/schema";
 import { REQUEST_TYPE_LABELS } from "@/lib/constants";
 import { RESPONSE_FORM } from "@/lib/request-response";
 import { fmtDateTime } from "@/lib/format";
-import { submitResponse } from "./actions";
+import { requestResponseUpload, submitResponse } from "./actions";
 
 export const metadata = { title: "Reply to a request", robots: { index: false } };
 
@@ -66,7 +66,7 @@ export default async function RespondPage({ params }: PageProps<"/respond/[token
         )}
       </Card>
 
-      <ActionForm action={submitResponse.bind(null, token)} className="grid gap-6">
+      <ActionForm action={submitResponse.bind(null, token)} requestUpload={requestResponseUpload.bind(null, token)} className="grid gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Your reply</CardTitle>

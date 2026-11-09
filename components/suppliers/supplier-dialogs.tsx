@@ -10,18 +10,21 @@ import { FormDialog } from "@/components/form/form-dialog";
 import { CheckboxField, SelectField, TextAreaField, TextField } from "@/components/form/fields";
 import { FieldErrorText } from "@/components/form/field-errors";
 import type { ActionState } from "@/lib/action-state";
+import type { RequestUpload } from "@/lib/direct-upload";
 import { REQUEST_TYPES, REQUEST_TYPE_LABELS, SUPPLIER_STATUSES, SUPPLIER_STATUS_LABELS, type SupplierStatus } from "@/lib/constants";
 
 type Action = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 
 export function UploadDocumentDialog({
   action,
+  requestUpload,
   documentTypes,
   defaultTypeId,
   triggerLabel = "Upload document",
   variant = "default",
 }: {
   action: Action;
+  requestUpload: RequestUpload;
   documentTypes: { id: string; name: string; hasExpiry: boolean }[];
   defaultTypeId?: string;
   triggerLabel?: string;
@@ -39,6 +42,7 @@ export function UploadDocumentDialog({
       title="Upload a document"
       description="PDF, JPG, PNG or WEBP, up to 10 MB. The upload replaces the current file of the same type; older versions stay in the history."
       action={action}
+      requestUpload={requestUpload}
       submitLabel="Upload"
     >
       <SelectField

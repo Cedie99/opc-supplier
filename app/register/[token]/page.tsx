@@ -9,7 +9,7 @@ import { FieldErrorText } from "@/components/form/field-errors";
 import { db } from "@/lib/db";
 import { documentTypes, supplierDocuments, supplierInvites, suppliers } from "@/lib/db/schema";
 import { fmtDate } from "@/lib/format";
-import { submitRegistration, submitResubmission } from "./actions";
+import { requestInviteUpload, submitRegistration, submitResubmission } from "./actions";
 
 export const metadata = { title: "Supplier registration", robots: { index: false } };
 
@@ -44,7 +44,7 @@ export default async function RegisterPage({ params }: PageProps<"/register/[tok
 
   return (
     <Shell>
-      <ActionForm action={submitRegistration.bind(null, token)} className="grid gap-6">
+      <ActionForm action={submitRegistration.bind(null, token)} requestUpload={requestInviteUpload.bind(null, token)} className="grid gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Supplier accreditation — registration</CardTitle>
@@ -130,7 +130,7 @@ async function Resubmission({ token, invite }: { token: string; invite: typeof s
 
   return (
     <Shell subtitle="Document re-upload">
-      <ActionForm action={submitResubmission.bind(null, token)} className="grid gap-6">
+      <ActionForm action={submitResubmission.bind(null, token)} requestUpload={requestInviteUpload.bind(null, token)} className="grid gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Please upload {types.length === 1 ? "this document" : "these documents"} again</CardTitle>

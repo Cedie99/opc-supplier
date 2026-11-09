@@ -93,6 +93,7 @@ import {
   logCommunication,
   logComplaint,
   resolveComplaint,
+  requestDocumentUpload,
   reviewDocument,
   uploadDocument,
 } from "../actions";
@@ -421,7 +422,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
                 {canInvite && reuploadItems.length > 0 && (
                   <RequestReuploadDialog action={createResubmissionLink.bind(null, id)} items={reuploadItems} email={supplier.email} />
                 )}
-                {canUpload && <UploadDocumentDialog action={uploadDocument.bind(null, id)} documentTypes={typeOptions} />}
+                {canUpload && <UploadDocumentDialog action={uploadDocument.bind(null, id)} requestUpload={requestDocumentUpload.bind(null, id)} documentTypes={typeOptions} />}
               </div>
             </CardHeader>
             <CardContent className="grid gap-4">
@@ -489,6 +490,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
                         {canUpload && (!document || state === "expired" || state === "rejected") && (
                           <UploadDocumentDialog
                             action={uploadDocument.bind(null, id)}
+                            requestUpload={requestDocumentUpload.bind(null, id)}
                             documentTypes={typeOptions}
                             defaultTypeId={type.id}
                             triggerLabel={document ? "Replace" : "Upload"}

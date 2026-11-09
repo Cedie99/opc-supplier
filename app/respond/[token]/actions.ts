@@ -8,7 +8,8 @@ import { communicationLogs, profiles, suppliers } from "@/lib/db/schema";
 import { ActionError } from "@/lib/auth";
 import { formToObject, runAction, zRequired, zText, type ActionState } from "@/lib/actions";
 import { recordEvent } from "@/lib/audit";
-import { uploadSupplierFile } from "@/lib/storage";
+import { confirmUpload, createUploadTicket, readUploadRef, runUploadTicket } from "@/lib/storage";
+import type { UploadRequest, UploadTicketResult } from "@/lib/upload-rules";
 import { REQUEST_TYPE_LABELS } from "@/lib/constants";
 import { RESPONSE_FORM } from "@/lib/request-response";
 import { businessHoursBetween, formatBusinessHours } from "@/lib/business-hours";
@@ -48,6 +49,23 @@ const SCHEMAS = {
   }),
 };
 
+/** Public action: permission to attach one file, for as long as the request link can still be answered. */
+export async function requestResponseUpload(token: string, file: UploadRequest): Promise<UploadTicketResult> {
+  return runUploadTicket(async () => {
+    const r = await db.query.communicationLogs.findFirst({
+      where: and(
+        eq(communicationLogs.token, token),
+        eq(communicationLogs.channel, "link"),
+        inArray(communicationLogs.status, ["open", "no_response"]),
+        isNull(communicationLogs.respondedAt),
+        gt(communicationLogs.expiresAt, new Date()),
+      ),
+    });
+    if (!r) throw new ActionError("This link is no longer valid. Please contact our Purchasing team.");
+    return createUploadTicket(r.supplierId, file);
+  });
+}
+
 /** Public action: the supplier answers a request through its link. The reply time is recorded automatically. */
 export async function submitResponse(token: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
   const result = await runAction(async () => {
@@ -67,9 +85,8 @@ export async function submitResponse(token: string, _prev: ActionState, formData
     const response: Record<string, string | number | null> = {};
     for (const [k, v] of Object.entries(data)) response[k] = v ?? null;
 
-    const file = formData.get("file");
-    const hasFile = file instanceof File && file.size > 0;
-    const stored = hasFile ? await uploadSupplierFile(r.supplierId, file) : null;
+    const ref = readUploadRef(formData, "file");
+    const stored = ref ? await confirmUpload(r.supplierId, ref) : null;
 
     const respondedAt = new Date();
     const claimed = await db
