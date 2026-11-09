@@ -222,7 +222,7 @@ The rules are in `lib/business-hours.ts` and `lib/request-timing.ts`, and both h
 Create a project at [supabase.com](https://supabase.com). From **Project Settings**, collect:
 
 - **API:** the Project URL, the `anon` key and the `service_role` key
-- **Database → Connection string:** the *Transaction pooler* URI (port 6543) and the *Session pooler* or direct URI (port 5432)
+- **Connect** (top of the dashboard): the *Session pooler* URI (port 5432), with your database password in it. Don't use the *Transaction pooler* (port 6543): pages hang on it when several queries run at once.
 
 ### 2. Environment
 
@@ -236,8 +236,8 @@ Fill in every value in `.env.local`:
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase project URL and anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only admin key (user management, storage) |
-| `DATABASE_URL` | Transaction pooler URI (port 6543), used by the app |
-| `DIRECT_URL` | Session pooler or direct URI (port 5432), used by migrations |
+| `DATABASE_URL` | Session pooler URI (port 5432), used by the app |
+| `DIRECT_URL` | Session pooler URI (port 5432), used by migrations and `npm run setup`. Can be the same as `DATABASE_URL`. The direct `db.<project>.supabase.co` address may not resolve on networks without IPv6. |
 | `SUPABASE_DOCUMENTS_BUCKET` | Private bucket name (default `supplier-documents`) |
 | `NEXT_PUBLIC_APP_URL` | Public address of the app, used in links sent to suppliers |
 | `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_ADMIN_NAME` | First administrator, created by `npm run setup` |
@@ -324,7 +324,7 @@ The app is a standard Next.js server.
    npm start
    ```
 
-2. Or deploy to any Node host (Vercel, a VM, Docker) and set the same environment variables there.
+2. Or deploy to any Node host (Vercel, a VM, Docker) and set the same environment variables there. The session pooler used by `DATABASE_URL` suits a single long-running server. On Vercel or any host that runs many copies of the app, each copy holds its own connections and can reach Supabase's connection limit, so review the connection setup before going live there.
 3. Set `NEXT_PUBLIC_APP_URL` to the public address, so links in supplier emails point to the right place.
 4. Suppliers must be able to reach `/register/*` and `/respond/*`. The rest of the app requires sign-in.
 
@@ -388,7 +388,7 @@ proxy.ts                   Auth gate; public paths are /login, /register, /respo
 
 | Symptom | Fix |
 | --- | --- |
-| Sign-in is slow or a page shows "statement timeout" | A stuck pooler connection; reload. Make sure `DATABASE_URL` uses the transaction pooler (port 6543). |
+| Sign-in or pages take 30 seconds or more, or a page shows "statement timeout" | `DATABASE_URL` is probably on the transaction pooler (port 6543), where parallel queries can hang. Use the session pooler (port 5432) and restart the app. |
 | Links in emails point to `localhost` | Set `NEXT_PUBLIC_APP_URL` to the real address and restart. |
 | Emails stay in the Outbox as *Not configured* | Set `SMTP_HOST` and `SMTP_FROM` (and user/password), restart, then press **Send** in the Outbox. |
 | Microsoft 365 rejects SMTP login | IT must enable *Authenticated SMTP* for that mailbox. |
