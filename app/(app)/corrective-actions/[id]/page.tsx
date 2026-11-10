@@ -47,7 +47,7 @@ export default async function CorrectiveActionPage({ params }: PageProps<"/corre
   return (
     <>
       <PageHeader
-        back={{ href: "/corrective-actions", label: "Corrective actions" }}
+        back={{ href: "/corrective-actions", label: "Supplier concerns" }}
         title={action.reference}
         description={
           <span className="flex flex-wrap items-center gap-2">

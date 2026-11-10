@@ -22,7 +22,7 @@ export function ScoreSummary({ result, blockReasons = [] }: { result: ScoreResul
       )}
       {result.missing.length > 0 && <p className="text-muted-foreground text-sm">Still to rate: {result.missing.join(", ")}.</p>}
       {result.belowStandard.length > 0 && (
-        <p className="text-sm text-amber-700 dark:text-amber-400">Below 3 (corrective action required on approval): {result.belowStandard.join(", ")}.</p>
+        <p className="text-sm text-amber-700 dark:text-amber-400">Below 3 (supplier concern opens on approval): {result.belowStandard.join(", ")}.</p>
       )}
     </div>
   );

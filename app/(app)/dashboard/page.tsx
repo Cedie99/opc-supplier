@@ -101,7 +101,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
             <h1 className="mt-2 text-3xl font-semibold md:text-4xl">Good day, {user.fullName.split(" ")[0]}</h1>
             <p className="text-forest-foreground/75 mt-2 max-w-md text-sm">
               {accredited} accredited of {totalSuppliers} registered suppliers
-              {ca.overdue ? ` · ${ca.overdue} corrective action${ca.overdue === 1 ? "" : "s"} overdue` : ""}
+              {ca.overdue ? ` · ${ca.overdue} supplier concern${ca.overdue === 1 ? "" : "s"} overdue` : ""}
               {pendingEvals.length + pendingCanvasses.length ? ` · ${pendingEvals.length + pendingCanvasses.length} waiting for approval` : ""}.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -141,7 +141,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
         <Tile
           icon={TriangleAlertIcon}
           href="/corrective-actions?status=overdue"
-          label="Open corrective actions"
+          label="Open supplier concerns"
           value={String(ca.open)}
           sub={ca.overdue ? `${ca.overdue} overdue` : "None overdue"}
           alert={ca.overdue > 0}

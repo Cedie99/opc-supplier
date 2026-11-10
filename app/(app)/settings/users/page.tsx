@@ -25,7 +25,7 @@ const PERMISSION_LABELS: Record<keyof typeof PERMISSIONS, string> = {
   editEvaluation: "Fill in quarterly evaluation ratings (own fields)",
   prepareEvaluation: "Create and submit quarterly evaluations",
   approve: "Approve canvasses, evaluations and status changes",
-  manageCorrectiveActions: "Manage corrective actions",
+  manageCorrectiveActions: "Manage supplier concerns",
   logActivity: "Log requests and complaints",
   inviteSuppliers: "Send registration and re-upload links",
   manageSettings: "Change templates and reference data",

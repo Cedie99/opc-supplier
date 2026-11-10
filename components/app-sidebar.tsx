@@ -43,7 +43,7 @@ const MAIN: NavItem[] = [
   { href: "/suppliers", label: "Suppliers", icon: BuildingIcon },
   { href: "/canvass", label: "Selection Matrix", icon: ScaleIcon },
   { href: "/evaluations", label: "Quarterly evaluations", icon: ClipboardCheckIcon, badgeKey: "pendingApprovals" },
-  { href: "/corrective-actions", label: "Corrective actions", icon: TriangleAlertIcon, badgeKey: "overdueActions" },
+  { href: "/corrective-actions", label: "Supplier concerns", icon: TriangleAlertIcon, badgeKey: "overdueActions" },
   { href: "/documents", label: "Documents", icon: FileTextIcon, badgeKey: "expiringDocuments" },
   { href: "/requests", label: "Supplier requests", icon: MessagesSquareIcon, badgeKey: "unansweredRequests" },
 ];

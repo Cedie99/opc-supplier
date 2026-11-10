@@ -286,7 +286,7 @@ export async function decideCanvass(canvassId: string, _prev: ActionState, formD
     });
     revalidatePath(`/canvass/${canvassId}`);
     revalidatePath(`/suppliers/${supplier.id}`);
-    return { ok: true, message: cars.length ? `Approved. Corrective actions opened: ${cars.join(", ")}.` : "Approved." };
+    return { ok: true, message: cars.length ? `Approved. Supplier concerns opened: ${cars.join(", ")}.` : "Approved." };
   });
 }
 

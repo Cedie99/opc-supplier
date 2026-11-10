@@ -239,6 +239,6 @@ export async function decideEvaluation(id: string, _prev: ActionState, formData:
     });
     revalidatePath(`/evaluations/${id}`);
     revalidatePath(`/suppliers/${supplier.id}`);
-    return { ok: true, message: cars.length ? `Approved. Corrective actions opened: ${cars.join(", ")}.` : "Approved." };
+    return { ok: true, message: cars.length ? `Approved. Supplier concerns opened: ${cars.join(", ")}.` : "Approved." };
   });
 }

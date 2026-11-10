@@ -10,7 +10,7 @@ import { requireUser } from "@/lib/auth";
 import { CORRECTIVE_ACTION_DAYS } from "@/lib/corrective";
 import { createCorrectiveAction } from "../actions";
 
-export const metadata = { title: "New corrective action" };
+export const metadata = { title: "New supplier concern" };
 
 export default async function NewCorrectiveActionPage({ searchParams }: PageProps<"/corrective-actions/new">) {
   await requireUser("manageCorrectiveActions");
@@ -21,7 +21,7 @@ export default async function NewCorrectiveActionPage({ searchParams }: PageProp
   ]);
   return (
     <>
-      <PageHeader title="New corrective action" description="Record a supplier issue that needs a root cause and an improvement plan." back={{ href: "/corrective-actions", label: "Corrective actions" }} />
+      <PageHeader title="New supplier concern" description="Record a supplier issue that needs a root cause and an improvement plan." back={{ href: "/corrective-actions", label: "Supplier concerns" }} />
       <Card>
         <CardContent>
           <ActionForm action={createCorrectiveAction} className="grid gap-4 md:grid-cols-2">
@@ -45,7 +45,7 @@ export default async function NewCorrectiveActionPage({ searchParams }: PageProp
               defaultValue={format(addDays(new Date(), CORRECTIVE_ACTION_DAYS), "yyyy-MM-dd")}
             />
             <div className="flex items-end justify-end md:col-span-2">
-              <SubmitButton>Open corrective action</SubmitButton>
+              <SubmitButton>Open supplier concern</SubmitButton>
             </div>
           </ActionForm>
         </CardContent>

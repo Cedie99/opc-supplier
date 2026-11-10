@@ -52,8 +52,8 @@ export async function updateCorrectiveAction(id: string, _prev: ActionState, for
     const user = await authorize("manageCorrectiveActions");
     const data = updateSchema.parse(formToObject(formData));
     const current = await db.query.correctiveActions.findFirst({ where: eq(correctiveActions.id, id) });
-    if (!current) throw new ActionError("Corrective action not found.");
-    if (current.status === "closed") throw new ActionError("This corrective action is closed.");
+    if (!current) throw new ActionError("Supplier concern not found.");
+    if (current.status === "closed") throw new ActionError("This supplier concern is closed.");
     if (data.status === "for_verification" && (!data.rootCause || !data.actionPlan)) {
       return {
         error: "Fill in the root cause and action plan before sending it for verification.",
@@ -85,10 +85,10 @@ const closeSchema = z.object({ closureNote: zRequired("Closure note", 4000) });
 export async function closeCorrectiveAction(id: string, _prev: ActionState, formData: FormData): Promise<ActionState> {
   return runAction(async () => {
     const user = await authorize("manageCorrectiveActions");
-    if (!["admin", "purchasing_manager", "qa_officer"].includes(user.role)) throw new ActionError("Only a Purchasing Officer or the Purchasing Manager can close a corrective action.");
+    if (!["admin", "purchasing_manager", "qa_officer"].includes(user.role)) throw new ActionError("Only a Purchasing Officer or the Purchasing Manager can close a supplier concern.");
     const { closureNote } = closeSchema.parse(formToObject(formData));
     const current = await db.query.correctiveActions.findFirst({ where: eq(correctiveActions.id, id) });
-    if (!current) throw new ActionError("Corrective action not found.");
+    if (!current) throw new ActionError("Supplier concern not found.");
     if (current.status === "closed") throw new ActionError("Already closed.");
     if (!current.rootCause || !current.actionPlan) throw new ActionError("Record the root cause and action plan before closing.");
     await db.transaction(async (tx) => {
@@ -97,6 +97,6 @@ export async function closeCorrectiveAction(id: string, _prev: ActionState, form
     });
     revalidatePath(`/corrective-actions/${id}`);
     revalidatePath("/corrective-actions");
-    return { ok: true, message: "Corrective action closed." };
+    return { ok: true, message: "Supplier concern closed." };
   });
 }

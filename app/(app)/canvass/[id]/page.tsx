@@ -118,7 +118,7 @@ export default async function CanvassPage({ params }: PageProps<"/canvass/[id]">
           <CardHeader>
             <CardTitle>Waiting for your approval</CardTitle>
             <CardDescription>
-              Prepared by {meta?.creator ?? "—"}. Approving accredits the recommended supplier with its classification and opens corrective actions for any criterion rated below 3.
+              Prepared by {meta?.creator ?? "—"}. Approving accredits the recommended supplier with its classification and opens supplier concerns for any criterion rated below 3.
             </CardDescription>
           </CardHeader>
           <CardContent>

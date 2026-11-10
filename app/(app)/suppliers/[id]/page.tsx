@@ -270,7 +270,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
         />
         <Stat
           icon={WrenchIcon}
-          label="Open corrective actions"
+          label="Open supplier concerns"
           value={String(openActions.length)}
           sub={overdueActions ? `${overdueActions} overdue` : "None overdue"}
           alert={overdueActions > 0}
@@ -298,7 +298,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
             {evals.length > 0 && <Count>{evals.length}</Count>}
           </TabsTrigger>
           <TabsTrigger value="actions">
-            <WrenchIcon /> Corrective actions
+            <WrenchIcon /> Supplier concerns
             {openActions.length > 0 && <Count alert={overdueActions > 0}>{openActions.length}</Count>}
           </TabsTrigger>
           <TabsTrigger value="activity">
@@ -581,20 +581,20 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
           <Card>
             <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-4">
               <div>
-                <CardTitle>Corrective actions</CardTitle>
+                <CardTitle>Supplier concerns</CardTitle>
                 <CardDescription>Opened automatically for any criterion rated below 3, or added by hand.</CardDescription>
               </div>
               {can(user.role, "manageCorrectiveActions") && (
                 <Button size="sm" asChild>
                   <Link href={`/corrective-actions/new?supplier=${id}`}>
-                    <PlusIcon /> New corrective action
+                    <PlusIcon /> New supplier concern
                   </Link>
                 </Button>
               )}
             </CardHeader>
             <CardContent>
               {actions.length === 0 ? (
-                <EmptyState title="No corrective actions" description="Nothing to fix for this supplier." />
+                <EmptyState title="No supplier concerns" description="Nothing to fix for this supplier." />
               ) : (
                 <ul className="grid gap-2">
                   {actions.map((a) => {
@@ -713,7 +713,7 @@ export default async function SupplierPage({ params, searchParams }: PageProps<"
                           <span className="font-medium">{actorName ?? e.actorLabel ?? "System"}</span>{" "}
                           <span className="text-muted-foreground">{e.action.replaceAll("_", " ")}</span>{" "}
                           <Pill tone="gray" className="ml-1">
-                            {e.entityType.replaceAll("_", " ")}
+                            {e.entityType === "corrective_action" ? "supplier concern" : e.entityType.replaceAll("_", " ")}
                           </Pill>
                         </p>
                         {e.note && <p className="text-muted-foreground mt-0.5">{e.note}</p>}

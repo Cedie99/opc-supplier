@@ -113,7 +113,7 @@ export default async function EvaluationPage({ params }: PageProps<"/evaluations
           <CardHeader>
             <CardTitle>Waiting for your approval</CardTitle>
             <CardDescription>
-              Prepared by {people?.evaluator ?? "—"}. Approving sets the supplier&apos;s status to the classification below and opens a corrective action for every criterion rated below 3.
+              Prepared by {people?.evaluator ?? "—"}. Approving sets the supplier&apos;s status to the classification below and opens a supplier concern for every criterion rated below 3.
             </CardDescription>
           </CardHeader>
           <CardContent>

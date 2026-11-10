@@ -14,7 +14,7 @@ import { can } from "@/lib/permissions";
 import { CA_STATUSES, CA_STATUS_LABELS, type CorrectiveActionStatus } from "@/lib/constants";
 import { fmtDate, todayIso } from "@/lib/format";
 
-export const metadata = { title: "Corrective actions" };
+export const metadata = { title: "Supplier concerns" };
 const PAGE_SIZE = 25;
 
 export default async function CorrectiveActionsPage({ searchParams }: PageProps<"/corrective-actions">) {
@@ -48,13 +48,13 @@ export default async function CorrectiveActionsPage({ searchParams }: PageProps<
   return (
     <>
       <PageHeader
-        title="Corrective actions"
-        description="Supplier Improvement and Corrective Action Records. Opened automatically for any criterion rated below 3."
+        title="Supplier concerns"
+        description="Supplier improvement and concern records. Opened automatically for any criterion rated below 3."
         actions={
           can(user.role, "manageCorrectiveActions") && (
             <Button asChild>
               <Link href="/corrective-actions/new">
-                <PlusIcon /> New corrective action
+                <PlusIcon /> New supplier concern
               </Link>
             </Button>
           )
@@ -74,7 +74,7 @@ export default async function CorrectiveActionsPage({ searchParams }: PageProps<
         ]}
       />
       {rows.length === 0 ? (
-        <EmptyState title="No corrective actions" description="Nothing matches this filter." />
+        <EmptyState title="No supplier concerns" description="Nothing matches this filter." />
       ) : (
         <Card className="py-0">
           <Table>
