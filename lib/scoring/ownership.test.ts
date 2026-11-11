@@ -12,17 +12,16 @@ describe("field ownership", () => {
     for (const key of ["price", "delivery", "payment_terms", "responsiveness", "credibility"]) expect(owners[key]).toBe("purchasing");
   });
 
-  it("Quarterly: quality is QA's, delivery Warehouse's, the rest Purchasing's", () => {
+  it("Quarterly: quality is QA's, the rest (including delivery) Purchasing's", () => {
     const owners = ownersOf(QUARTERLY_CRITERIA, "quarterly");
     expect(owners.quality).toBe("qa");
-    expect(owners.delivery).toBe("warehouse");
-    for (const key of ["price", "responsiveness", "documentation", "after_sales"]) expect(owners[key]).toBe("purchasing");
+    for (const key of ["delivery", "price", "responsiveness", "documentation", "after_sales"]) expect(owners[key]).toBe("purchasing");
   });
 
   it("falls back by key for templates saved before filledBy existed", () => {
     expect(criterionOwner({ key: "quality" })).toBe("qa");
     expect(criterionOwner({ key: "delivery" }, "selection")).toBe("purchasing");
-    expect(criterionOwner({ key: "delivery" }, "quarterly")).toBe("warehouse");
+    expect(criterionOwner({ key: "delivery" }, "quarterly")).toBe("purchasing");
     expect(criterionOwner({ key: "price" }, "quarterly")).toBe("purchasing");
   });
 
@@ -50,13 +49,13 @@ describe("field ownership", () => {
       { key: "price", numerator: 12, denominator: 10 },
     ];
     const asWarehouse = mergeOwnedInputs(QUARTERLY_CRITERIA, "quarterly", "warehouse", tampered, stored);
-    expect(asWarehouse.find((i) => i.key === "delivery")?.numerator).toBe(1);
+    expect(asWarehouse.find((i) => i.key === "delivery")?.numerator).toBe(19);
     expect(asWarehouse.find((i) => i.key === "quality")?.numerator).toBe(49);
     expect(asWarehouse.find((i) => i.key === "price")?.numerator).toBe(10);
 
     const asBuyer = mergeOwnedInputs(QUARTERLY_CRITERIA, "quarterly", "buyer", tampered, stored);
     expect(asBuyer.find((i) => i.key === "price")?.numerator).toBe(12);
     expect(asBuyer.find((i) => i.key === "quality")?.numerator).toBe(49);
-    expect(asBuyer.find((i) => i.key === "delivery")?.numerator).toBe(19);
+    expect(asBuyer.find((i) => i.key === "delivery")?.numerator).toBe(1);
   });
 });

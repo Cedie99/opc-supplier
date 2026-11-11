@@ -29,6 +29,20 @@
       "when": 1794021714519,
       "tag": "0003_supplier_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794356115334,
+      "tag": "0004_delivery_filled_by_purchasing",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794356595639,
+      "tag": "0005_selection_delivery_capability",
+      "breakpoints": true
     }
   ]
 }

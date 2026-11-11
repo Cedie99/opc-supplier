@@ -5,8 +5,7 @@ import type { CriterionConfig } from "./types";
 /**
  * Who fills in a scoring field, in the Selection Matrix and the quarterly evaluation:
  *  - QA: sample/test results (Product Quality) and the critical-spec check
- *  - Warehouse: on-time delivery from receipts (quarterly evaluation only)
- *  - Purchasing (Buyer, Purchasing Manager): the commercial and relationship criteria
+ *  - Purchasing (Buyer, Purchasing Manager): on-time delivery and the commercial and relationship criteria
  * Admin can fill everything. Safe to import on the client and the server.
  */
 export type FieldOwner = "purchasing" | "qa" | "warehouse";
@@ -17,7 +16,7 @@ export const FIELD_OWNER_LABELS: Record<FieldOwner, string> = { purchasing: "Pur
 /** Used for templates saved before `filledBy` existed. */
 const DEFAULT_OWNERS: Record<TemplateKind, Record<string, FieldOwner>> = {
   selection: { quality: "qa" },
-  quarterly: { quality: "qa", delivery: "warehouse" },
+  quarterly: { quality: "qa" },
 };
 
 export function criterionOwner(criterion: Pick<CriterionConfig, "key" | "filledBy">, kind: TemplateKind = "selection"): FieldOwner {

@@ -34,7 +34,7 @@ The source document identified these problems:
 | --- | --- | --- |
 | Decisions based on lowest price | No standardized selection matrix | Weighted Selection Matrix: price is only 25%, equal to quality |
 | Poor-quality materials | No quality standards | The Purchasing Officer rates samples on specs passed ÷ specs tested; a critical spec failure blocks the supplier |
-| Delayed deliveries | No lead-time monitoring | On-time in-full rate rated every quarter by Warehouse |
+| Delayed deliveries | No lead-time monitoring | On-time in-full rate rated every quarter by the Purchasing Associate |
 | Same suppliers every time | No canvassing or benchmarking | Canvass compares 2–3+ suppliers side by side |
 | Dependence on one bottle supplier | No alternative sourcing | Sole-source and mold-ownership flags; dashboard lists critical categories with no alternative |
 | Recurring supplier issues | No corrective action system | A corrective action opens automatically for any criterion rated below 3 |
@@ -61,7 +61,7 @@ The source document identified these problems:
  ─────────────────
  1. Purchasing Associate generates quarterly drafts
  2. Purchasing Officer rates Product Quality
- 3. Warehouse rates On-Time Delivery
+ 3. Purchasing Associate rates On-Time Delivery
  4. Purchasing Associate rates price, documentation and after-sales;
     Responsiveness is filled from request reply times
  5. Purchasing Associate submits → Purchasing Manager approves
@@ -100,7 +100,7 @@ All through the year, Purchasing Associates send **supplier requests** (quotatio
 | --- | --- |
 | **Purchasing Associate** | Adds suppliers, sends registration, re-upload and request links, prepares and submits canvasses and evaluations, fills in the purchasing criteria |
 | **Purchasing Officer** | Verifies supplier documents; rates Product Quality (specs passed / specs tested) and the critical-spec flag; manages corrective actions |
-| **Warehouse** | Rates On-Time Delivery in quarterly evaluations; logs activity |
+| **Warehouse** | Logs activity |
 | **Purchasing Manager** | Approves or rejects canvasses and evaluations; can do everything a Purchasing Associate can |
 | **Administrator** | Everything, including settings and users; backup document verifier |
 | **Management** | View only |
@@ -110,7 +110,7 @@ All through the year, Purchasing Associates send **supplier requests** (quotatio
 | Criterion | Selection Matrix | Quarterly evaluation |
 | --- | --- | --- |
 | Product Quality, critical-spec flag | Purchasing Officer | Purchasing Officer |
-| On-Time Delivery | Purchasing Associate | Warehouse |
+| On-Time Delivery | Purchasing Associate | Purchasing Associate |
 | Price, payment terms, responsiveness, credibility, documentation, after-sales | Purchasing Associate | Purchasing Associate |
 
 Ownership is set per criterion in the scoring template (`filledBy`). A preparer cannot approve their own canvass or evaluation; administrators are the exception.
@@ -129,7 +129,7 @@ These come from the *Supplier Selection Matrix* document.
 | --- | --- | --- | --- | --- |
 | Price Competitiveness | 25% | % above the lowest qualified landed cost | 0–2% | >15% |
 | Product Quality | 25% | Specs passed ÷ specs tested | 99–100% | <90% |
-| Delivery Reliability | 20% | On-time in-full rate | 98–100% | <80% |
+| Delivery Capability & Commitment | 20% | Lead time, capacity and delivery references (rated by hand) | Meets lead time, sufficient capacity and inventory, verified references | Cannot meet lead time, no reliable delivery plan |
 | Payment Terms | 10% | Credit days | 60+ days | <15 days / COD |
 | Responsiveness | 10% | Average business hours to first reply | ≤2 h | >24 h |
 | Company Credibility | 10% | Documents, years in business, references | Complete, 10+ yrs, strong refs | Invalid mandatory docs |
